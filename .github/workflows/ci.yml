@@ -15,7 +15,7 @@ jobs:
         with:
           node-version: '20'
       - name: Test auth service
-        working-directory: ./services/auth-service
+        working-directory: ./services
         run: |
           npm install || true
           npm test || true
@@ -42,7 +42,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Test IA service
-        working-directory: ./services/ia-service
+        working-directory: ./services/IAservice/IA-service
         run: |
           pip install -r requirements.txt || true
           python -m pytest || true
