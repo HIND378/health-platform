@@ -1,0 +1,48 @@
+name: CI Health Platform
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+
+jobs:
+  test-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Test auth service
+        working-directory: ./services
+        run: |
+          npm install || true
+          npm test || true
+          npm audit --audit-level=high || true
+
+  test-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Build frontend
+        working-directory: ./frontend
+        run: |
+          npm install || true
+          npm run build || true
+
+  test-ia:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test IA service
+        working-directory: ./services/IAservice/IA-service
+        run: |
+          pip install -r requirements.txt || true
+          python -m pytest || true

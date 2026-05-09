@@ -1,0 +1,12 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'health-platform'
+    static_configs:
+      - targets: ['host.docker.internal:3001']
+        labels:
+          service: 'auth'
+      - targets: ['host.docker.internal:3002']
+        labels:
+          service: 'patient'
